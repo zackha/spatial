@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const imageUrls = ['/bg/bg1.png', '/bg/bg2.png', '/bg/bg3.jpeg', '/bg/bg4.jpeg'];
+const imageUrls = ['/bg/bg1.png', '/bg/bg2.png', '/bg/bg3.png'];
 const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)];
 </script>
 
