@@ -1,5 +1,7 @@
 <template>
   <Container>
-    <Button>Button</Button>
+    <Card>
+      <Button><Icon name="iconamoon:close-light" size="20px" /></Button>
+    </Card>
   </Container>
 </template>
