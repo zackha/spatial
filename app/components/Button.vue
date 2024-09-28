@@ -12,7 +12,7 @@
     @apply scale-95;
   }
   &:hover {
-    @apply bg-black/30;
+    @apply bg-white/30;
   }
 }
 </style>
