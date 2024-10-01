@@ -2,6 +2,7 @@
   <Container>
     <Card>
       <div class="flex flex-col justify-center gap-6">
+        <!-- Input and Categories Section -->
         <div class="flex gap-6">
           <div class="w-1/4 flex">
             <Input />
@@ -9,15 +10,9 @@
           <div class="w-3/4 flex flex-col">
             <div class="flex justify-between items-center">
               <div class="flex items-center justify-center gap-3">
-                <Button><div class="px-1.5">Movies</div></Button>
-                <Button><div class="px-1.5">TV Series</div></Button>
-                <Button><div class="px-1.5">Animation</div></Button>
-                <Button><div class="px-1.5">Mistery</div></Button>
-                <Button><div class="px-1.5">Documentary</div></Button>
-                <Button><div class="px-1.5">Comedy</div></Button>
-                <Button><div class="px-1.5">Horror</div></Button>
-                <Button><div class="px-1.5">Thriller</div></Button>
-                <Button><div class="px-1.5">More</div></Button>
+                <Button v-for="(category, index) in categories" :key="index">
+                  <div class="px-1.5">{{ category }}</div>
+                </Button>
               </div>
               <div class="flex items-center justify-center gap-3">
                 <Button>
@@ -39,32 +34,28 @@
           </div>
         </div>
 
+        <!-- Movie Display Section -->
         <div class="flex gap-6">
           <div class="w-1/4">
             <ContentBox></ContentBox>
           </div>
           <div class="w-3/4">
             <div
+              v-for="(movie, index) in movies"
+              :key="index"
               class="bg-cover bg-center w-full h-[34rem] rounded-3xl relative overflow-hidden shadow-lg"
-              style="background-image: url(https://m.media-amazon.com/images/M/MV5BNTYxOTYyMzE3NV5BMl5BanBnXkFtZTcwOTMxNDY3Mw@@._V1_.jpg)">
+              :style="{ backgroundImage: `url(${movie.backgroundImage})` }">
               <GradientBackdrop />
               <div class="flex p-6 justify-between h-full">
                 <div class="items-start flex flex-col justify-between w-3/5 z-50">
-                  <Chip>🔥 Now Trending</Chip>
+                  <Chip v-if="movie.trending">🔥 Now Trending</Chip>
                   <div class="gap-6 flex-col flex">
                     <div class="flex flex-row gap-2">
-                      <Chip>Epic</Chip>
-                      <Chip>Period Drama</Chip>
-                      <Chip>Prison Drama</Chip>
-                      <Chip>Tragedy</Chip>
-                      <Chip>Drama</Chip>
+                      <Chip v-for="(genre, i) in movie.genres" :key="i">{{ genre }}</Chip>
                     </div>
                     <div class="flex flex-col gap-2 ml-1">
-                      <div class="text-4xl font-medium">The Shawshank Redemption</div>
-                      <div class="text-neutral-400">
-                        A banker convicted of uxoricide forms a friendship over a quarter century with a hardened convict, while maintaining his innocence and trying to remain
-                        hopeful through simple compassion.
-                      </div>
+                      <div class="text-4xl font-medium">{{ movie.title }}</div>
+                      <div class="text-neutral-400">{{ movie.description }}</div>
                     </div>
                     <div class="flex items-center">
                       <Button>
@@ -96,3 +87,15 @@
     </Card>
   </Container>
 </template>
+
+<script setup lang="ts">
+const categories = ref<string[]>([]);
+const movies = ref<Movie[]>([]);
+
+const { data } = await useFetch<ApiResponse>('/api/movies');
+
+if (data.value) {
+  categories.value = data.value.categories;
+  movies.value = data.value.movies;
+}
+</script>
