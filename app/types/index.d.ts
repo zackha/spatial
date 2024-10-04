@@ -1,3 +1,8 @@
+interface Trailer {
+  title: string;
+  backgroundImage: string;
+}
+
 interface Movie {
   title: string;
   description: string;
@@ -9,4 +14,5 @@ interface Movie {
 interface ApiResponse {
   categories: string[];
   movies: Movie[];
+  trailers: Trailer[];
 }
