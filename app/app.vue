@@ -1,3 +1,17 @@
+<script setup lang="ts">
+const categories = ref<string[]>([]);
+const movies = ref<Movie[]>([]);
+const trailers = ref<Trailer[]>([]);
+
+const { data } = await useFetch<ApiResponse>('/api/movies');
+
+if (data.value) {
+  categories.value = data.value.categories;
+  movies.value = data.value.movies;
+  trailers.value = data.value.trailers;
+}
+</script>
+
 <template>
   <Container>
     <Card>
@@ -37,7 +51,24 @@
         <!-- Movie Display Section -->
         <div class="flex gap-6">
           <div class="w-1/4">
-            <ContentBox></ContentBox>
+            <ContentBox>
+              <div class="flex flex-col w-full h-[34rem] px-6 pt-6 gap-5">
+                <div class="justify-between flex">
+                  <div class="text-lg font-medium">🔥 New Trailer</div>
+                  <div class="flex">
+                    <div>Sort:</div>
+                    <div>Today</div>
+                  </div>
+                </div>
+                <div class="overflow-auto flex flex-col gap-4 pb-6">
+                  <div v-for="(trailer, index) in trailers" :key="index">
+                    <div class="bg-cover w-full h-48 rounded-2xl flex bg-center items-end overflow-hidden" :style="{ backgroundImage: `url(${trailer.backgroundImage})` }">
+                      <div class="py-3 px-4 backdrop-blur-3xl justify-center items-center flex">{{ trailer.title }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ContentBox>
           </div>
           <div class="w-3/4">
             <div
@@ -88,14 +119,15 @@
   </Container>
 </template>
 
-<script setup lang="ts">
-const categories = ref<string[]>([]);
-const movies = ref<Movie[]>([]);
-
-const { data } = await useFetch<ApiResponse>('/api/movies');
-
-if (data.value) {
-  categories.value = data.value.categories;
-  movies.value = data.value.movies;
+<style lang="postcss">
+::-webkit-scrollbar {
+  @apply w-0 h-0 bg-transparent;
 }
-</script>
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-black/15 dark:bg-white/15 rounded-full border-solid border-white dark:border-black;
+  border-width: 5px;
+}
+</style>
