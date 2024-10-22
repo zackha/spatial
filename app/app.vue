@@ -63,7 +63,17 @@ if (data.value) {
                 <div class="overflow-auto flex flex-col gap-4 pb-6">
                   <div v-for="(trailer, index) in trailers" :key="index">
                     <div class="bg-cover w-full h-48 rounded-2xl flex bg-center items-end overflow-hidden" :style="{ backgroundImage: `url(${trailer.backgroundImage})` }">
-                      <div class="py-3 px-4 backdrop-blur-3xl justify-center items-center flex">{{ trailer.title }}</div>
+                      <div class="py-3 px-4 backdrop-blur-3xl items-center flex justify-between w-full">
+                        <div>
+                          <div class="font-semibold">{{ trailer.title }}</div>
+                          <div class="text-xs text-neutral-300">{{ trailer.tags }}</div>
+                        </div>
+                        <Button>
+                          <div class="flex items-center justify-center p-0.5">
+                            <Icon name="iconamoon:player-play-fill" size="16px" />
+                          </div>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>

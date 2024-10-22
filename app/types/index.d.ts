@@ -1,5 +1,6 @@
 interface Trailer {
   title: string;
+  tags: string;
   backgroundImage: string;
 }
 

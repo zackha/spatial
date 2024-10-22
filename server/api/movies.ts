@@ -13,19 +13,19 @@ export default defineEventHandler(() => {
     ],
     trailers: [
       {
-        title: `Nicole Kidman's Christmas Gets Steamy in 'Babygirl'`,
-        backgroundImage:
-          'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fwww.ft.com%2F__origami%2Fservice%2Fimage%2Fv2%2Fimages%2Fraw%2Fhttps%253A%252F%252Fd1e00ek4ebabms.cloudfront.net%252Fproduction%252F25e69601-c009-4ef3-8485-f029d0b6e17e.jpg%3Fsource%3Dnext-article%26fit%3Dscale-down%26quality%3Dhighest%26width%3D700%26dpr%3D1?source=next-opengraph&fit=scale-down&width=900',
+        title: 'Beetlejuice Beetlejuice',
+        tags: 'Comedy, Fantasy, Horror',
+        backgroundImage: 'https://media.themoviedb.org/t/p/w533_and_h300_bestv2/xi1VSt3DtkevUmzCx2mNlCoDe74.jpg',
       },
       {
-        title: `Nicole Kidman's Christmas Gets Steamy in 'Babygirl'`,
-        backgroundImage:
-          'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fwww.ft.com%2F__origami%2Fservice%2Fimage%2Fv2%2Fimages%2Fraw%2Fhttps%253A%252F%252Fd1e00ek4ebabms.cloudfront.net%252Fproduction%252F25e69601-c009-4ef3-8485-f029d0b6e17e.jpg%3Fsource%3Dnext-article%26fit%3Dscale-down%26quality%3Dhighest%26width%3D700%26dpr%3D1?source=next-opengraph&fit=scale-down&width=900',
+        title: 'Smile 2',
+        tags: 'Horror, Mystery',
+        backgroundImage: 'https://media.themoviedb.org/t/p/w533_and_h300_bestv2/cVg97LOJgrDZJ7bVmjU2KsGRYnU.jpg',
       },
       {
-        title: `Nicole Kidman's Christmas Gets Steamy in 'Babygirl'`,
-        backgroundImage:
-          'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fwww.ft.com%2F__origami%2Fservice%2Fimage%2Fv2%2Fimages%2Fraw%2Fhttps%253A%252F%252Fd1e00ek4ebabms.cloudfront.net%252Fproduction%252F25e69601-c009-4ef3-8485-f029d0b6e17e.jpg%3Fsource%3Dnext-article%26fit%3Dscale-down%26quality%3Dhighest%26width%3D700%26dpr%3D1?source=next-opengraph&fit=scale-down&width=900',
+        title: 'Deadpool & Wolverine',
+        tags: 'Action, Comedy, Science Fiction',
+        backgroundImage: 'https://media.themoviedb.org/t/p/w533_and_h300_bestv2/yDHYTfA3R0jFYba16jBB1ef8oIt.jpg',
       },
     ],
   };
