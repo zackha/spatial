@@ -1,0 +1,78 @@
+.sp-input {
+  --_height: var(--sp-control-md-height);
+  --_padding: var(--sp-control-md-padding);
+  --_font-size: var(--sp-control-md-font-size);
+  --_tint: var(--sp-material-thin-tint);
+  --_blur: var(--sp-material-thin-blur);
+  --_shadow: var(--sp-control-shadow);
+
+  display: inline-flex;
+  gap: 0.5em;
+  align-items: center;
+  inline-size: 100%;
+  block-size: var(--_height);
+  padding-inline: var(--_padding);
+  font-size: var(--_font-size);
+  cursor: text;
+  border-radius: var(--sp-radius-control);
+  transition: background-color var(--sp-duration) var(--sp-easing);
+
+  &[data-size='sm'] {
+    --_height: var(--sp-control-sm-height);
+    --_padding: var(--sp-control-sm-padding);
+    --_font-size: var(--sp-control-sm-font-size);
+  }
+
+  &[data-size='lg'] {
+    --_height: var(--sp-control-lg-height);
+    --_padding: var(--sp-control-lg-padding);
+    --_font-size: var(--sp-control-lg-font-size);
+  }
+
+  /* The ring sits on the box, which is what looks like the field. */
+  &:has(.sp-input-field:focus-visible) {
+    outline: var(--sp-focus-width) solid var(--sp-color-focus);
+    outline-offset: var(--sp-focus-offset);
+  }
+
+  &:has(.sp-input-field[aria-invalid='true']) {
+    border-color: var(--sp-color-danger);
+    outline-color: var(--sp-color-danger);
+  }
+
+  &:has(.sp-input-field:disabled) {
+    cursor: default;
+    opacity: var(--sp-state-disabled-opacity);
+  }
+}
+
+.sp-input-field {
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 100%;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+  background: none;
+  border: 0;
+  outline: none;
+
+  &::placeholder {
+    color: var(--sp-color-fg-muted);
+    opacity: 1;
+  }
+
+  &:disabled {
+    cursor: inherit;
+  }
+}
+
+.sp-input-leading,
+.sp-input-trailing {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  color: var(--sp-color-fg-muted);
+}

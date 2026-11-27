@@ -1,0 +1,30 @@
+/*
+ * The glass material. Every translucent component carries `.sp-material`, and
+ * it is public: add it to your own elements to make them glass too.
+ *
+ * Thickness comes from `data-material` (`thin`, `regular` or `thick`).
+ * Components tune it through the private `--_tint`, `--_blur` and `--_shadow`
+ * properties from the later `spatial.components` layer.
+ */
+.sp-material {
+  --_tint: var(--sp-material-regular-tint);
+  --_blur: var(--sp-material-regular-blur);
+  --_shadow: var(--sp-material-shadow);
+
+  box-sizing: border-box;
+  color: var(--sp-color-fg);
+  background-color: var(--_tint);
+  backdrop-filter: blur(var(--_blur)) saturate(var(--sp-material-saturation));
+  border: 1px solid var(--sp-material-edge);
+  box-shadow: var(--sp-material-highlight), var(--_shadow);
+
+  &[data-material='thin'] {
+    --_tint: var(--sp-material-thin-tint);
+    --_blur: var(--sp-material-thin-blur);
+  }
+
+  &[data-material='thick'] {
+    --_tint: var(--sp-material-thick-tint);
+    --_blur: var(--sp-material-thick-blur);
+  }
+}

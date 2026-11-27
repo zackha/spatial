@@ -63,6 +63,8 @@ jobs:
           node-version: lts/*
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # The hydration test drives the fixture app in a real browser.
+      - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm build
       - run: pnpm test:nuxt
         env:
