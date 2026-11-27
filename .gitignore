@@ -1,13 +1,19 @@
-# Nuxt dev/build outputs
+# Dependencies
+node_modules
+
+# Build output
+dist
 .output
-.data
 .nuxt
 .nitro
 .cache
-dist
+.data
 
-# Node dependencies
-node_modules
+# Generated
+*.tsbuildinfo
+components.d.ts
+.vitest
+coverage
 
 # Logs
 logs

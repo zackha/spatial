@@ -1,0 +1,10 @@
+{
+  "name": "spatial-fixture-nuxt",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "nuxt": "catalog:",
+    "spatial-ui": "workspace:*",
+    "vue": "catalog:"
+  }
+}

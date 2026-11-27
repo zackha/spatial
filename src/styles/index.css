@@ -1,0 +1,14 @@
+/*
+ * Spatial UI stylesheet.
+ *
+ * Everything lives in the `spatial` cascade layer, so any unlayered CSS in the
+ * consuming app overrides it regardless of selector specificity. Apps that use
+ * other layers (e.g. Tailwind CSS) should declare the order up front:
+ *
+ *   @layer theme, base, spatial, components, utilities;
+ */
+@layer spatial.tokens, spatial.components;
+
+@import './tokens.css' layer(spatial.tokens);
+
+@import '../components/surface/surface.css' layer(spatial.components);

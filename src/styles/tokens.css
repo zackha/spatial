@@ -1,0 +1,26 @@
+/*
+ * Design tokens. Every `--sp-*` property here is public API: overriding one
+ * from unlayered CSS (e.g. `:root { --sp-radius-surface: 1rem }`) always wins
+ * over the library, because the library only ships layered rules.
+ *
+ * Properties prefixed `--_` inside components are private and may change.
+ */
+:root {
+  /* Materials: translucent tints, blurred and saturated backdrops. */
+  --sp-material-fg: oklch(100% 0 0);
+  --sp-material-saturation: 150%;
+  --sp-material-thin-tint: oklch(100% 0 0 / 6%);
+  --sp-material-thin-blur: 8px;
+  --sp-material-regular-tint: oklch(100% 0 0 / 10%);
+  --sp-material-regular-blur: 24px;
+  --sp-material-thick-tint: oklch(100% 0 0 / 16%);
+  --sp-material-thick-blur: 40px;
+
+  /* A soft specular edge: lit from the top left, shaded at the bottom right. */
+  --sp-material-highlight:
+    inset 0.5px 0.5px 1px 0 oklch(100% 0 0 / 10%), inset -0.5px -0.5px 1px 0 oklch(0% 0 0 / 10%);
+  --sp-material-shadow: 0 15px 40px -10px oklch(0% 0 0 / 40%);
+
+  /* Radii. */
+  --sp-radius-surface: 2.375rem;
+}
