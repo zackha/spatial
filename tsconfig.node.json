@@ -1,0 +1,13 @@
+{
+  // Tooling and Node-side tests: build scripts, configs, unit and Nuxt tests.
+  // Node runs these files natively (type stripping), hence explicit `.ts`
+  // import extensions and erasable-only syntax.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true
+  },
+  "include": ["scripts", "test/unit", "test/nuxt", "*.config.ts"]
+}

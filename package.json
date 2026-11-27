@@ -1,22 +1,92 @@
 {
-  "name": "nuxt-app",
-  "private": true,
+  "name": "spatial-ui",
   "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+  "version": "2.0.0-alpha.0",
+  "packageManager": "pnpm@12.23.0",
+  "description": "Spatial glass components for Vue and Nuxt.",
+  "license": "MIT",
+  "homepage": "https://github.com/zackha/spatial#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zackha/spatial.git"
   },
-  "dependencies": {
-    "@nuxt/icon": "^1.9.0",
-    "@nuxtjs/tailwindcss": "^6.12.2",
-    "nuxt": "^3.14.1592",
-    "vue": "latest",
-    "vue-router": "latest"
+  "bugs": "https://github.com/zackha/spatial/issues",
+  "keywords": [
+    "vue",
+    "nuxt",
+    "nuxt-module",
+    "components",
+    "ui",
+    "glass",
+    "spatial"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./nuxt": {
+      "types": "./dist/nuxt.d.mts",
+      "default": "./dist/nuxt.mjs"
+    },
+    "./resolver": {
+      "types": "./dist/resolver.d.mts",
+      "default": "./dist/resolver.mjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "play": "pnpm --filter spatial-playground dev",
+    "lint": "eslint .",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p tsconfig.node.json",
+    "test": "vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:browser": "vitest run --project browser",
+    "test:nuxt": "vitest run --project nuxt",
+    "prepack": "pnpm build"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "nuxt": {
+      "optional": true
+    }
   },
   "devDependencies": {
-    "@iconify-json/iconamoon": "^1.2.1"
+    "@antfu/eslint-config": "catalog:",
+    "@arethetypeswrong/core": "catalog:",
+    "@nuxt/test-utils": "catalog:",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vitest/browser-playwright": "catalog:",
+    "axe-core": "catalog:",
+    "browserslist": "catalog:",
+    "eslint": "catalog:",
+    "lightningcss": "catalog:",
+    "nuxt": "catalog:",
+    "playwright": "catalog:",
+    "publint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "unplugin-vue": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vitest-browser-vue": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

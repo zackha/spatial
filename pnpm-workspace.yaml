@@ -1,0 +1,43 @@
+catalogMode: strict
+minimumReleaseAgeExcludePrune: true
+
+# Refuse versions published with weaker trust (trusted publisher / provenance)
+# than an earlier release of the same package: a takeover signal.
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  # Published without provenance by its regular maintainer (Nov 2024) after
+  # earlier releases had it; pinned by @types/node@22. Reviewed 2026-11-27.
+  - undici-types@6.21.0
+
+shellEmulator: true
+
+packages:
+  - playground
+  - test/fixtures/*
+
+allowBuilds:
+  esbuild: true
+
+catalog:
+  '@antfu/eslint-config': ^10.0.0
+  '@arethetypeswrong/core': ^0.18.5
+  '@nuxt/test-utils': ^4.4.0
+  '@types/node': ^22.19.0
+  '@vitejs/plugin-vue': ^6.0.11
+  '@vitest/browser-playwright': ^5.1.2
+  axe-core: ^4.14.1
+  browserslist: ^4.29.6
+  eslint: ^10.15.0
+  lightningcss: ^1.33.0
+  nuxt: ^4.7.0
+  playwright: ^1.65.1
+  publint: ^0.3.25
+  tsdown: ^0.23.7
+  typescript: ^6.0.3
+  unplugin-vue: ^8.0.1
+  unplugin-vue-components: ^32.1.0
+  vite: ^8.3.0
+  vitest: ^5.1.2
+  vitest-browser-vue: ^3.1.0
+  vue: ^3.5.46
+  vue-tsc: ^3.3.14
