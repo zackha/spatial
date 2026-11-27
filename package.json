@@ -53,7 +53,7 @@
     "typecheck": "vue-tsc --noEmit -p tsconfig.json && vue-tsc --noEmit -p tsconfig.node.json",
     "test": "vitest run",
     "test:unit": "vitest run --project unit",
-    "test:browser": "vitest run --project browser",
+    "test:browser": "vitest run --project browser --project browser-media",
     "test:nuxt": "vitest run --project nuxt",
     "prepack": "pnpm build"
   },
@@ -65,6 +65,9 @@
     "nuxt": {
       "optional": true
     }
+  },
+  "dependencies": {
+    "reka-ui": "catalog:"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",

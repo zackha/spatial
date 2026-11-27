@@ -51,14 +51,55 @@
     color: GrayText;
     border-color: GrayText;
   }
+
+  /*
+   * State that is shown only by fill would vanish when fills are forced, so
+   * these controls paint their states with system colors themselves.
+   */
+  .sp-switch,
+  .sp-segmented-control-item {
+    forced-color-adjust: none;
+    color: CanvasText;
+    background-color: Canvas;
+    border-color: CanvasText;
+  }
+
+  .sp-switch-thumb {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
+
+  .sp-switch[data-checked],
+  .sp-segmented-control-item[data-selected] {
+    color: HighlightText;
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+
+  .sp-switch[data-checked] > .sp-switch-thumb {
+    background-color: HighlightText;
+  }
+
+  .sp-switch[data-disabled],
+  .sp-segmented-control-item[data-disabled] {
+    color: GrayText;
+    border-color: GrayText;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sp-button {
+  .sp-button,
+  .sp-input,
+  .sp-switch,
+  .sp-switch-thumb,
+  .sp-segmented-control-item,
+  .sp-tooltip,
+  .sp-dialog,
+  .sp-dialog-overlay {
     transition: none;
+  }
 
-    &:active {
-      transform: none;
-    }
+  .sp-button:active {
+    transform: none;
   }
 }

@@ -17,6 +17,10 @@ describe('nuxt module', async () => {
     expect(html).toMatch(/<span class="sp-badge sp-material" data-variant="glass">\s*New\s*<\/span>/)
     expect(html).toMatch(/<input class="sp-input-field" aria-label="Search" value="glass">/)
     expect(html).toMatch(/<button class="sp-button" data-variant="prominent" data-size="md" type="button">/)
+    expect(html).toMatch(/<button[^>]+role="switch"[^>]+aria-checked="false"/)
+    // Fallthrough attributes reach the root in the production build.
+    expect(html).toMatch(/<div class="sp-segmented-control sp-material"[^>]*aria-label="Range"[^>]*role="radiogroup"/)
+    expect(html).toMatch(/<button[^>]+role="radio"[^>]+aria-checked="true"[^>]*data-selected/)
   })
 
   it('adds the stylesheet to the app', async () => {
@@ -51,6 +55,19 @@ describe('nuxt module', async () => {
 
     await page.getByRole('button', { name: 'Pressed 0 times' }).click()
     await page.getByRole('button', { name: 'Pressed 1 times' }).waitFor()
+
+    await page.getByRole('switch', { name: 'Notifications' }).click()
+    expect(await page.getByTestId('notifications').textContent()).toContain('on')
+
+    await page.getByRole('radio', { name: 'Month' }).click()
+    expect(await page.getByTestId('range').textContent()).toContain('Month')
+
+    await page.getByRole('button', { name: 'Apply' }).click()
+    const dialog = page.getByRole('dialog', { name: 'Confirm' })
+    await dialog.waitFor()
+    expect(await dialog.getAttribute('data-sp-scheme')).toBe('dark')
+    await page.getByRole('button', { name: 'Confirm' }).click()
+    await dialog.waitFor({ state: 'detached' })
 
     expect(problems).toEqual([])
   })

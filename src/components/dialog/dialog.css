@@ -1,0 +1,59 @@
+.sp-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--sp-color-overlay);
+  transition: opacity var(--sp-duration) var(--sp-easing);
+
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+.sp-dialog {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  inline-size: min(32rem, 100% - 2rem);
+  block-size: fit-content;
+  max-block-size: calc(100% - 2rem);
+  padding: 1.5rem;
+  margin: auto;
+  overflow: auto;
+  border-radius: var(--sp-radius-surface);
+  outline: none;
+  transition-timing-function: var(--sp-easing);
+  transition-duration: var(--sp-duration);
+  transition-property: opacity, scale;
+
+  @starting-style {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+.sp-dialog-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.sp-dialog-description {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--sp-color-fg-muted);
+}
+
+.sp-dialog-body {
+  line-height: 1.5;
+}
+
+.sp-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-block-start: 0.5rem;
+}

@@ -17,7 +17,11 @@
 
 @import '../components/badge/badge.css' layer(spatial.components);
 @import '../components/button/button.css' layer(spatial.components);
+@import '../components/dialog/dialog.css' layer(spatial.components);
 @import '../components/input/input.css' layer(spatial.components);
+@import '../components/segmented-control/segmented-control.css' layer(spatial.components);
 @import '../components/surface/surface.css' layer(spatial.components);
+@import '../components/switch/switch.css' layer(spatial.components);
+@import '../components/tooltip/tooltip.css' layer(spatial.components);
 
 @import './accessibility.css' layer(spatial.accessibility);

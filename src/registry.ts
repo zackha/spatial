@@ -8,8 +8,12 @@
 export const components = [
   'Badge',
   'Button',
+  'Dialog',
   'Input',
+  'SegmentedControl',
   'Surface',
+  'Switch',
+  'Tooltip',
 ] as const
 
 export type ComponentName = (typeof components)[number]

@@ -1,8 +1,7 @@
-import { afterEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { render } from 'vitest-browser-vue'
-import { page, server } from 'vitest/browser'
+import { page } from 'vitest/browser'
 import { h } from 'vue'
-import { emulateMedia, resetMedia } from '../../test/utils/media'
 import './index.css'
 
 function renderMaterial(attrs: Record<string, string> = {}): Promise<unknown> {
@@ -11,16 +10,6 @@ function renderMaterial(attrs: Record<string, string> = {}): Promise<unknown> {
 
 function style(): CSSStyleDeclaration {
   return getComputedStyle(page.getByTestId('glass').element())
-}
-
-/** Whether the engine really forces colors, not just the media query. */
-function colorsAreForced(): boolean {
-  const probe = document.createElement('div')
-  probe.style.color = 'rgb(255, 0, 1)'
-  document.body.append(probe)
-  const forced = getComputedStyle(probe).color !== 'rgb(255, 0, 1)'
-  probe.remove()
-  return forced
 }
 
 /** Resolves the opaque fallback color the same way the material would. */
@@ -34,8 +23,6 @@ function solidColor(): string {
 }
 
 describe('material', () => {
-  afterEach(() => resetMedia())
-
   it('is translucent glass by default', async () => {
     await renderMaterial()
 
@@ -73,35 +60,5 @@ describe('material', () => {
 
     expect(style().backdropFilter).toBe('none')
     expect(style().backgroundColor).toBe(solidColor())
-  })
-
-  it('turns solid with a visible edge when more contrast is preferred', async ({ skip }) => {
-    // In Firefox, Playwright's emulation flips `matchMedia` but does not restyle
-    // stylesheets that were loaded before it, layered or not (verified with a
-    // bare `<style>`), so this cannot be observed there.
-    if (server.browser === 'firefox')
-      skip()
-
-    await emulateMedia({ contrast: 'more' })
-    await renderMaterial()
-
-    expect(style().backdropFilter).toBe('none')
-    expect(style().backgroundColor).toBe(solidColor())
-    expect(style().borderTopColor).not.toBe('rgba(0, 0, 0, 0)')
-  })
-
-  it('keeps a visible boundary in forced colors mode', async ({ skip }) => {
-    // Only Chromium implements forced colors; elsewhere at most the media
-    // query is emulated, without the browser actually forcing colors.
-    await emulateMedia({ forcedColors: 'active' })
-    if (!colorsAreForced())
-      skip()
-
-    await renderMaterial()
-
-    expect(style().backdropFilter).toBe('none')
-    expect(style().boxShadow).toBe('none')
-    expect(style().borderTopStyle).toBe('solid')
-    expect(style().borderTopColor).not.toBe('rgba(0, 0, 0, 0)')
   })
 })

@@ -12,7 +12,15 @@ export default defineConfig({
   target: 'es2022',
   fixedExtension: true,
   plugins: [
-    Vue({ isProduction: true }),
+    Vue({
+      isProduction: true,
+      // The compiler keeps template comments unless told otherwise (its default
+      // follows NODE_ENV). A comment beside a component's root turns the root
+      // into a fragment, and fragments drop fallthrough attributes in production.
+      template: {
+        compilerOptions: { comments: false },
+      },
+    }),
     stylesheet(),
   ],
   dts: {

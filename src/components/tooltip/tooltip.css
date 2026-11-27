@@ -1,0 +1,16 @@
+.sp-tooltip {
+  --_tint: var(--sp-material-thick-tint);
+  --_blur: var(--sp-material-thick-blur);
+  --_shadow: var(--sp-control-shadow);
+
+  max-inline-size: 20rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  border-radius: 0.75rem;
+  transition: opacity var(--sp-duration) var(--sp-easing);
+
+  @starting-style {
+    opacity: 0;
+  }
+}

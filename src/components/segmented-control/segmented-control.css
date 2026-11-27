@@ -1,0 +1,76 @@
+.sp-segmented-control {
+  --_height: var(--sp-control-md-height);
+  --_padding: var(--sp-control-md-padding);
+  --_font-size: var(--sp-control-md-font-size);
+  --_inset: 3px;
+  --_tint: var(--sp-material-thin-tint);
+  --_blur: var(--sp-material-thin-blur);
+  --_shadow: var(--sp-control-shadow);
+
+  display: inline-flex;
+  gap: 2px;
+  align-items: stretch;
+  block-size: var(--_height);
+  padding: calc(var(--_inset) - 1px);
+  font-size: var(--_font-size);
+  border-radius: var(--sp-radius-control);
+
+  &[data-size='sm'] {
+    --_height: var(--sp-control-sm-height);
+    --_padding: var(--sp-control-sm-padding);
+    --_font-size: var(--sp-control-sm-font-size);
+  }
+
+  &[data-size='lg'] {
+    --_height: var(--sp-control-lg-height);
+    --_padding: var(--sp-control-lg-padding);
+    --_font-size: var(--sp-control-lg-font-size);
+  }
+}
+
+.sp-segmented-control-item {
+  display: inline-flex;
+  flex: 1 1 0;
+  gap: 0.375em;
+  align-items: center;
+  justify-content: center;
+  padding-block: 0;
+  padding-inline: calc(var(--_padding) - var(--_inset));
+  margin: 0;
+  font: inherit;
+  font-weight: 500;
+  line-height: 1;
+  color: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--sp-radius-control);
+  transition: background-color var(--sp-duration) var(--sp-easing), color var(--sp-duration) var(--sp-easing);
+
+  &:not([data-selected], [data-disabled]) {
+    @media (hover: hover) {
+      &:hover {
+        background-color: color-mix(in oklab, currentcolor var(--sp-state-hover), transparent);
+      }
+    }
+  }
+
+  &[data-selected] {
+    color: var(--sp-color-accent-fg);
+    background-color: var(--sp-color-accent);
+    box-shadow: var(--_shadow);
+  }
+
+  &:focus-visible {
+    outline: var(--sp-focus-width) solid var(--sp-color-focus);
+    outline-offset: var(--sp-focus-offset);
+  }
+
+  &[data-disabled] {
+    cursor: default;
+    opacity: var(--sp-state-disabled-opacity);
+  }
+}

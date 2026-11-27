@@ -10,6 +10,8 @@ const categories = [
 const active = ref('Movies')
 const query = ref('')
 const scheme = ref<'dark' | 'light'>('dark')
+const autoplay = ref(true)
+const quality = ref('HD')
 </script>
 
 <template>
@@ -23,21 +25,13 @@ const scheme = ref<'dark' | 'light'>('dark')
             </svg>
           </template>
         </SpInput>
-        <nav class="categories" aria-label="Categories">
-          <SpButton
-            v-for="category in categories"
-            :key="category"
-            size="sm"
-            :variant="category === active ? 'prominent' : 'plain'"
-            :aria-pressed="category === active"
-            @click="active = category"
-          >
-            {{ category }}
+        <SpSegmentedControl v-model="active" :items="categories" size="sm" aria-label="Category" />
+        <span class="spacer" />
+        <SpTooltip :text="`Switch to ${scheme === 'dark' ? 'light' : 'dark'} mode`" side="bottom">
+          <SpButton square size="sm" :aria-label="`Switch to ${scheme === 'dark' ? 'light' : 'dark'} mode`" @click="scheme = scheme === 'dark' ? 'light' : 'dark'">
+            {{ scheme === 'dark' ? '☀' : '☾' }}
           </SpButton>
-        </nav>
-        <SpButton square size="sm" :aria-label="`Switch to ${scheme === 'dark' ? 'light' : 'dark'} mode`" @click="scheme = scheme === 'dark' ? 'light' : 'dark'">
-          {{ scheme === 'dark' ? '☀' : '☾' }}
-        </SpButton>
+        </SpTooltip>
       </header>
 
       <section class="hero">
@@ -58,10 +52,27 @@ const scheme = ref<'dark' | 'light'>('dark')
           <SpButton size="lg">
             Trailer
           </SpButton>
-          <SpButton size="lg" disabled>
-            Download
-          </SpButton>
+          <SpDialog title="Download The Glass Garden?" description="The film will be saved for offline viewing on this device.">
+            <template #trigger>
+              <SpButton size="lg">
+                Download
+              </SpButton>
+            </template>
+            <SpSegmentedControl v-model="quality" :items="['SD', 'HD', '4K']" aria-label="Quality" />
+            <template #footer="{ close }">
+              <SpButton variant="plain" @click="close">
+                Cancel
+              </SpButton>
+              <SpButton variant="prominent" @click="close">
+                Download
+              </SpButton>
+            </template>
+          </SpDialog>
         </div>
+        <label class="setting">
+          <SpSwitch v-model="autoplay" />
+          Autoplay trailers
+        </label>
       </section>
 
       <footer class="materials">
@@ -105,10 +116,14 @@ body {
   max-inline-size: 16rem;
 }
 
-.categories {
-  display: flex;
+.spacer {
   flex: 1;
-  gap: 0.25rem;
+}
+
+.setting {
+  display: inline-flex;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .hero {
