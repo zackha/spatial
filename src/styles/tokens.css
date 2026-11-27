@@ -23,12 +23,14 @@
 [data-sp-scheme='light'] {
   /* Content. */
   --sp-color-fg: oklch(20% 0 0);
-  --sp-color-fg-muted: oklch(20% 0 0 / 60%);
+  --sp-color-fg-muted: oklch(20% 0 0 / 72%);
   /* The fill of prominent controls, and the content drawn on it. */
   --sp-color-accent: oklch(20% 0 0);
   --sp-color-accent-fg: oklch(100% 0 0);
   --sp-color-focus: oklch(55% 0.2 255);
   --sp-color-danger: oklch(55% 0.21 25);
+  /* Dims the page behind a dialog. */
+  --sp-color-overlay: oklch(0% 0 0 / 20%);
 
   /* Materials: translucent tints over a blurred, saturated backdrop. */
   --sp-material-thin-tint: oklch(100% 0 0 / 35%);
@@ -52,11 +54,12 @@
   color-scheme: dark;
 
   --sp-color-fg: oklch(100% 0 0);
-  --sp-color-fg-muted: oklch(100% 0 0 / 60%);
+  --sp-color-fg-muted: oklch(100% 0 0 / 72%);
   --sp-color-accent: oklch(100% 0 0);
   --sp-color-accent-fg: oklch(20% 0 0);
   --sp-color-focus: oklch(80% 0.13 255);
   --sp-color-danger: oklch(72% 0.17 25);
+  --sp-color-overlay: oklch(0% 0 0 / 45%);
 
   --sp-material-thin-tint: oklch(100% 0 0 / 6%);
   --sp-material-regular-tint: oklch(100% 0 0 / 10%);

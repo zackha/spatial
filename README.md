@@ -9,7 +9,7 @@ Spatial glass components for Vue and Nuxt: translucent, blurred materials with s
 - **Zero styling dependencies.** Plain CSS and design tokens. No Tailwind or CSS-in-JS required, and it works alongside both.
 - **Override anything.** All styles live in a cascade layer, so your own CSS always wins, whatever its specificity.
 - **SSR-ready.** Components render on the server and hydrate without mismatches.
-- **Accessible.** Native elements, visible keyboard focus, and glass that adapts to reduced transparency, more contrast and forced colors.
+- **Accessible.** Native elements, WAI-ARIA keyboard patterns (via [Reka UI](https://reka-ui.com) for interactive widgets), visible keyboard focus, and glass that adapts to reduced transparency, more contrast and forced colors.
 
 ## Installation
 
@@ -172,7 +172,8 @@ Declare the layer order before importing Tailwind, so utilities override Spatial
 
 - Glass turns into an opaque fill when the user prefers reduced transparency or more contrast, and when the browser cannot blur.
 - Safari does not expose its Reduce Transparency setting to CSS. Set `data-sp-transparency="reduce"` on any element to make the glass inside it opaque, for example from a user preference.
-- In forced colors mode (Windows high contrast), every surface and control keeps a visible border.
+- In forced colors mode (Windows high contrast), every surface and control keeps a visible border, and selected or checked states are painted with system highlight colors.
+- Text colors meet WCAG AA contrast over the default materials. Glass shows whatever is behind it, so check contrast over your own imagery, or use a thicker material.
 - Motion is removed when the user prefers reduced motion.
 - Focus rings show for keyboard focus only, using `:focus-visible`.
 
@@ -260,6 +261,103 @@ const query = ref('')
 - Set `aria-invalid="true"` to mark the field invalid.
 - Get the native element or focus it through a template ref, which exposes `input` and `focus()`.
 - `v-model` modifiers (`.trim`, `.number`, `.lazy`) are not supported yet.
+
+### Switch
+
+```vue
+<label>
+  <SpSwitch v-model="autoplay" />
+  Autoplay trailers
+</label>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `v-model` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+
+- Label it by wrapping it in a `<label>`, with `<label for>` and an `id`, or with `aria-label`.
+- With a `name`, it takes part in forms like a checkbox.
+
+### SegmentedControl
+
+Picks one of a few options, such as a view or a filter.
+
+```vue
+<SpSegmentedControl v-model="range" :items="['Day', 'Week', 'Month']" aria-label="Range" />
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `v-model` | `string` | |
+| `items` | `Array<string \| { value: string, label: string, disabled?: boolean }>` | |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+| `disabled` | `boolean` | `false` |
+
+| Slot | Props | Description |
+| --- | --- | --- |
+| `item` | `{ item, selected }` | Custom content for each option |
+
+- It is a radio group: Tab focuses the selected option, and the arrow keys move between options and select them, wrapping around.
+- Give it an accessible name with `aria-label` or `aria-labelledby`.
+
+### Tooltip
+
+```vue
+<SpTooltip text="Add to list">
+  <SpButton square aria-label="Add to list">+</SpButton>
+</SpTooltip>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `text` | `string` | |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` |
+| `delay` | `number` (ms) | `500` |
+| `disabled` | `boolean` | `false` |
+
+| Slot | Description |
+| --- | --- |
+| default | The trigger: a single focusable element |
+| `content` | Rich content instead of `text` |
+
+- It opens on hover after `delay`, and immediately on keyboard focus. Escape closes it.
+- Moving from one tooltip to the next shortly after skips the delay, so scanning a toolbar is quick. No provider component is needed.
+- The tooltip describes its trigger. It does not name it, so icon-only triggers still need an `aria-label`.
+- Disabled buttons fire no pointer events, so their tooltips do not open on hover.
+- Attributes such as `class` apply to the tooltip bubble.
+
+### Dialog
+
+```vue
+<SpDialog title="Delete file?" description="This cannot be undone.">
+  <template #trigger>
+    <SpButton>Delete</SpButton>
+  </template>
+  <template #footer="{ close }">
+    <SpButton variant="plain" @click="close">Cancel</SpButton>
+    <SpButton variant="prominent" @click="remove(); close()">Delete</SpButton>
+  </template>
+</SpDialog>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `v-model:open` | `boolean` | `false` |
+| `title` | `string` | |
+| `description` | `string` | |
+
+| Slot | Props | Description |
+| --- | --- | --- |
+| `trigger` | | The element that opens the dialog. Optional with `v-model:open` |
+| `title`, `description` | | Rich content instead of the props |
+| default | `{ close }` | The body |
+| `footer` | `{ close }` | Actions, aligned to the end |
+
+- The dialog is modal. Focus moves inside and stays there, Escape or a click outside closes it, and focus returns to the trigger. The page behind does not scroll.
+- Always give it a title, so it is announced when it opens.
+- Attributes such as `class` apply to the dialog panel.
+- The dialog renders at the end of `<body>`. It takes the color scheme of its trigger, or of where it is declared, so a dialog opened from a dark section is dark too.
 
 ## Browser support
 
