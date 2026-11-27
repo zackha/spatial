@@ -1,0 +1,93 @@
+.sp-button {
+  --_height: var(--sp-control-md-height);
+  --_padding: var(--sp-control-md-padding);
+  --_font-size: var(--sp-control-md-font-size);
+  --_tint: var(--sp-material-thin-tint);
+  --_blur: var(--sp-material-thin-blur);
+  --_shadow: var(--sp-control-shadow);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: var(--_height);
+  block-size: var(--_height);
+  padding-block: 0;
+  padding-inline: var(--_padding);
+  margin: 0;
+  font: inherit;
+  font-size: var(--_font-size);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--sp-color-fg);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--sp-radius-control);
+  transition-timing-function: var(--sp-easing);
+  transition-duration: var(--sp-duration);
+  transition-property: background-color, transform, opacity;
+
+  &[data-size='sm'] {
+    --_height: var(--sp-control-sm-height);
+    --_padding: var(--sp-control-sm-padding);
+    --_font-size: var(--sp-control-sm-font-size);
+  }
+
+  &[data-size='lg'] {
+    --_height: var(--sp-control-lg-height);
+    --_padding: var(--sp-control-lg-padding);
+    --_font-size: var(--sp-control-lg-font-size);
+  }
+
+  &[data-square] {
+    inline-size: var(--_height);
+    padding-inline: 0;
+  }
+
+  /* Restore what the reset above took from the material. */
+  &[data-variant='glass'] {
+    background-color: var(--_tint);
+    border-color: var(--sp-material-edge);
+  }
+
+  &[data-variant='prominent'] {
+    color: var(--sp-color-accent-fg);
+    background-color: var(--sp-color-accent);
+    box-shadow: var(--_shadow);
+  }
+
+  /* Tint with the content color, so it reads on light and dark fills alike. */
+  &:not(:disabled, [aria-disabled='true']) {
+    @media (hover: hover) {
+      &:hover {
+        background-image: linear-gradient(
+          color-mix(in oklab, currentcolor var(--sp-state-hover), transparent) 0 0
+        );
+      }
+    }
+
+    &:active {
+      background-image: linear-gradient(
+        color-mix(in oklab, currentcolor var(--sp-state-active), transparent) 0 0
+      );
+      transform: scale(0.97);
+    }
+  }
+
+  &:focus-visible {
+    outline: var(--sp-focus-width) solid var(--sp-color-focus);
+    outline-offset: var(--sp-focus-offset);
+  }
+
+  &:is(:disabled, [aria-disabled='true']) {
+    cursor: default;
+    opacity: var(--sp-state-disabled-opacity);
+  }
+}

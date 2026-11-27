@@ -1,20 +1,3 @@
 .sp-surface {
-  --_tint: var(--sp-material-regular-tint);
-  --_blur: var(--sp-material-regular-blur);
-
-  color: var(--sp-material-fg);
-  background-color: var(--_tint);
-  backdrop-filter: blur(var(--_blur)) saturate(var(--sp-material-saturation));
   border-radius: var(--sp-radius-surface);
-  box-shadow: var(--sp-material-highlight), var(--sp-material-shadow);
-
-  &[data-material='thin'] {
-    --_tint: var(--sp-material-thin-tint);
-    --_blur: var(--sp-material-thin-blur);
-  }
-
-  &[data-material='thick'] {
-    --_tint: var(--sp-material-thick-tint);
-    --_blur: var(--sp-material-thick-blur);
-  }
 }

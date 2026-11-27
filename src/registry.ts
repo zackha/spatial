@@ -6,6 +6,9 @@
  * of `src/index.ts`, the component directories, or the stylesheet imports.
  */
 export const components = [
+  'Badge',
+  'Button',
+  'Input',
   'Surface',
 ] as const
 

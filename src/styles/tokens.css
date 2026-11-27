@@ -1,26 +1,107 @@
 /*
  * Design tokens. Every `--sp-*` property here is public API: overriding one
- * from unlayered CSS (e.g. `:root { --sp-radius-surface: 1rem }`) always wins
- * over the library, because the library only ships layered rules.
+ * from unlayered CSS always wins over the library, because the library only
+ * ships layered rules.
  *
  * Properties prefixed `--_` inside components are private and may change.
  */
-:root {
-  /* Materials: translucent tints, blurred and saturated backdrops. */
-  --sp-material-fg: oklch(100% 0 0);
-  --sp-material-saturation: 150%;
-  --sp-material-thin-tint: oklch(100% 0 0 / 6%);
-  --sp-material-thin-blur: 8px;
-  --sp-material-regular-tint: oklch(100% 0 0 / 10%);
-  --sp-material-regular-blur: 24px;
-  --sp-material-thick-tint: oklch(100% 0 0 / 16%);
-  --sp-material-thick-blur: 40px;
 
-  /* A soft specular edge: lit from the top left, shaded at the bottom right. */
+/*
+ * Color schemes. Light by default; any subtree switches with the `dark` class
+ * (the convention of @nuxtjs/color-mode, VueUse and Tailwind CSS) or with
+ * `data-sp-scheme="dark"`, and back with `light` / `data-sp-scheme="light"`.
+ *
+ * Color tokens are declared again at each switch, so override them for both
+ * schemes, e.g. `:root { --sp-color-accent: … } .dark { --sp-color-accent: … }`.
+ *
+ * Plain custom properties are used rather than `light-dark()` on purpose:
+ * bundlers that target older browsers (Vite's default does) rewrite
+ * `light-dark()` into a polyfill that ignores `color-scheme` set at runtime.
+ */
+:root,
+.light,
+[data-sp-scheme='light'] {
+  /* Content. */
+  --sp-color-fg: oklch(20% 0 0);
+  --sp-color-fg-muted: oklch(20% 0 0 / 60%);
+  /* The fill of prominent controls, and the content drawn on it. */
+  --sp-color-accent: oklch(20% 0 0);
+  --sp-color-accent-fg: oklch(100% 0 0);
+  --sp-color-focus: oklch(55% 0.2 255);
+  --sp-color-danger: oklch(55% 0.21 25);
+
+  /* Materials: translucent tints over a blurred, saturated backdrop. */
+  --sp-material-thin-tint: oklch(100% 0 0 / 35%);
+  --sp-material-regular-tint: oklch(100% 0 0 / 50%);
+  --sp-material-thick-tint: oklch(100% 0 0 / 65%);
+  /* The opaque stand-in when transparency is reduced or unsupported. */
+  --sp-material-solid: oklch(95% 0 0);
+  /* A soft specular rim: lit from the top left, shaded at the bottom right. */
+  --sp-material-highlight:
+    inset 0.5px 0.5px 1px 0 oklch(100% 0 0 / 60%), inset -0.5px -0.5px 1px 0 oklch(0% 0 0 / 10%);
+  --sp-material-shadow: 0 15px 40px -10px oklch(0% 0 0 / 15%);
+}
+
+.light,
+[data-sp-scheme='light'] {
+  color-scheme: light;
+}
+
+.dark,
+[data-sp-scheme='dark'] {
+  color-scheme: dark;
+
+  --sp-color-fg: oklch(100% 0 0);
+  --sp-color-fg-muted: oklch(100% 0 0 / 60%);
+  --sp-color-accent: oklch(100% 0 0);
+  --sp-color-accent-fg: oklch(20% 0 0);
+  --sp-color-focus: oklch(80% 0.13 255);
+  --sp-color-danger: oklch(72% 0.17 25);
+
+  --sp-material-thin-tint: oklch(100% 0 0 / 6%);
+  --sp-material-regular-tint: oklch(100% 0 0 / 10%);
+  --sp-material-thick-tint: oklch(100% 0 0 / 16%);
+  --sp-material-solid: oklch(30% 0 0);
   --sp-material-highlight:
     inset 0.5px 0.5px 1px 0 oklch(100% 0 0 / 10%), inset -0.5px -0.5px 1px 0 oklch(0% 0 0 / 10%);
   --sp-material-shadow: 0 15px 40px -10px oklch(0% 0 0 / 40%);
+}
 
-  /* Radii. */
+/* Scheme-independent tokens. */
+:root {
+  --sp-material-saturation: 150%;
+  --sp-material-thin-blur: 8px;
+  --sp-material-regular-blur: 24px;
+  --sp-material-thick-blur: 40px;
+  /* An edge, transparent by default; visible in high-contrast modes. */
+  --sp-material-edge: transparent;
+
+  /* Interaction: how much of the content color tints a hovered or pressed control. */
+  --sp-state-hover: 10%;
+  --sp-state-active: 16%;
+  --sp-state-disabled-opacity: 0.4;
+
+  /* Shape. */
   --sp-radius-surface: 2.375rem;
+  --sp-radius-control: 9999px;
+
+  /* Controls: buttons and inputs, in three sizes. */
+  --sp-control-shadow: 0 3px 10px -5px oklch(0% 0 0 / 20%);
+  --sp-control-sm-height: 2rem;
+  --sp-control-sm-padding: 0.75rem;
+  --sp-control-sm-font-size: 0.875rem;
+  --sp-control-md-height: 2.5rem;
+  --sp-control-md-padding: 1rem;
+  --sp-control-md-font-size: 1rem;
+  --sp-control-lg-height: 3rem;
+  --sp-control-lg-padding: 1.25rem;
+  --sp-control-lg-font-size: 1.125rem;
+
+  /* Focus. */
+  --sp-focus-width: 2px;
+  --sp-focus-offset: 2px;
+
+  /* Motion. */
+  --sp-duration: 150ms;
+  --sp-easing: cubic-bezier(0.2, 0, 0, 1);
 }

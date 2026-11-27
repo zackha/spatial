@@ -1,4 +1,5 @@
-import type { BrowserInstanceOption } from 'vitest/node'
+import type { Page } from 'playwright'
+import type { BrowserCommand, BrowserInstanceOption } from 'vitest/node'
 import process from 'node:process'
 import vue from '@vitejs/plugin-vue'
 import { playwright } from '@vitest/browser-playwright'
@@ -14,6 +15,12 @@ const browsers: BrowserInstanceOption[] = process.env.CI
   : [
       { browser: 'chromium' },
     ]
+
+/** Emulates media features such as `forced-colors` (see `test/utils/media.ts`). */
+const emulateMedia: BrowserCommand<[options: NonNullable<Parameters<Page['emulateMedia']>[0]>]> = (
+  { page },
+  options,
+) => page.emulateMedia(options)
 
 export default defineConfig({
   test: {
@@ -42,6 +49,7 @@ export default defineConfig({
             headless: true,
             provider: playwright(),
             instances: browsers,
+            commands: { emulateMedia },
           },
         },
       },

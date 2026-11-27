@@ -17,6 +17,7 @@ describe('surface', () => {
     const surface = page.getByText('Content')
     await expect.element(surface).toHaveClass('sp-surface')
     await expect.element(surface).toHaveAttribute('data-material', 'regular')
+    await expect.element(surface).toHaveClass('sp-material')
     expect(surface.element().tagName).toBe('DIV')
   })
 

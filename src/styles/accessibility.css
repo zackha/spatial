@@ -1,0 +1,64 @@
+/*
+ * Adaptations to the user's settings and the browser's capabilities. This is
+ * the last library layer, so it wins over every component style.
+ */
+
+/* Without backdrop blur, a translucent tint is unreadable over busy content. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .sp-material {
+    background-color: var(--sp-material-solid);
+  }
+}
+
+/*
+ * Reduced transparency. Safari does not expose its setting to CSS, so apps can
+ * also opt in with `data-sp-transparency="reduce"` on any ancestor.
+ */
+@media (prefers-reduced-transparency: reduce) {
+  .sp-material {
+    background-color: var(--sp-material-solid);
+    backdrop-filter: none;
+  }
+}
+
+[data-sp-transparency='reduce'] .sp-material,
+.sp-material[data-sp-transparency='reduce'] {
+  background-color: var(--sp-material-solid);
+  backdrop-filter: none;
+}
+
+/* More contrast: solid fills and visible edges. */
+@media (prefers-contrast: more) {
+  .sp-material {
+    background-color: var(--sp-material-solid);
+    backdrop-filter: none;
+    border-color: color-mix(in oklab, currentcolor 60%, transparent);
+  }
+}
+
+/*
+ * Forced colors (e.g. Windows high contrast). Colors and borders are replaced
+ * with system colors and shadows are dropped, which turns every transparent
+ * edge into a visible boundary.
+ */
+@media (forced-colors: active) {
+  .sp-material {
+    backdrop-filter: none;
+  }
+
+  .sp-button:is(:disabled, [aria-disabled='true']),
+  .sp-input:has(.sp-input-field:disabled) {
+    color: GrayText;
+    border-color: GrayText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sp-button {
+    transition: none;
+
+    &:active {
+      transform: none;
+    }
+  }
+}

@@ -8,7 +8,8 @@ Spatial glass components for Vue and Nuxt: translucent, blurred materials with s
 - **Vue and Nuxt.** One package. Import components directly, auto-import them with a resolver, or install the Nuxt module.
 - **Zero styling dependencies.** Plain CSS and design tokens. No Tailwind or CSS-in-JS required, and it works alongside both.
 - **Override anything.** All styles live in a cascade layer, so your own CSS always wins, whatever its specificity.
-- **SSR-ready.** Components render on the server and touch no browser globals during setup.
+- **SSR-ready.** Components render on the server and hydrate without mismatches.
+- **Accessible.** Native elements, visible keyboard focus, and glass that adapts to reduced transparency, more contrast and forced colors.
 
 ## Installation
 
@@ -92,6 +93,21 @@ import { Surface } from 'spatial-ui'
 
 ## Styling
 
+### Color schemes
+
+Spatial UI is light by default. Switch any subtree to dark with the `dark` class, and back with `light`:
+
+```html
+<html class="dark">
+  …
+  <section class="light">…</section>
+</html>
+```
+
+This is the convention of [`@nuxtjs/color-mode`](https://color-mode.nuxtjs.org), VueUse's `useDark` and Tailwind CSS, so they work without configuration. If `dark` and `light` classes clash with your app, use `data-sp-scheme="dark"` and `data-sp-scheme="light"` instead.
+
+Glass looks best over imagery, which often calls for the dark scheme even in a light app.
+
 ### Overriding
 
 The stylesheet puts everything in the `spatial` cascade layer, and unlayered CSS always beats layered CSS. Override design tokens or component styles from your own CSS without raising specificity:
@@ -106,7 +122,42 @@ The stylesheet puts everything in the `spatial` cascade layer, and unlayered CSS
 }
 ```
 
-Custom properties prefixed `--sp-`, component classes such as `.sp-surface`, and `data-*` attributes such as `data-material` are public API and follow semantic versioning. Properties prefixed `--_` are private.
+Color tokens are declared per scheme, so override them for both:
+
+```css
+:root {
+  --sp-color-accent: oklch(60% 0.2 260);
+}
+
+.dark {
+  --sp-color-accent: oklch(75% 0.15 260);
+}
+```
+
+Custom properties prefixed `--sp-`, the classes `.sp-material` and `.sp-<component>`, and `data-*` attributes such as `data-variant` are public API and follow semantic versioning. Properties prefixed `--_` are private.
+
+| Tokens | Purpose |
+| --- | --- |
+| `--sp-color-fg`, `--sp-color-fg-muted` | Content |
+| `--sp-color-accent`, `--sp-color-accent-fg` | Prominent controls and the content on them |
+| `--sp-color-focus`, `--sp-color-danger` | Focus rings, invalid fields |
+| `--sp-material-{thin,regular,thick}-{tint,blur}` | Glass thickness |
+| `--sp-material-solid` | The opaque fill used when transparency is reduced |
+| `--sp-material-edge`, `--sp-material-highlight`, `--sp-material-shadow` | Glass edges and depth |
+| `--sp-control-{sm,md,lg}-{height,padding,font-size}` | Control sizes |
+| `--sp-radius-surface`, `--sp-radius-control` | Corner radii |
+| `--sp-state-hover`, `--sp-state-active`, `--sp-state-disabled-opacity` | Interaction feedback |
+| `--sp-focus-width`, `--sp-focus-offset`, `--sp-duration`, `--sp-easing` | Focus rings and motion |
+
+See [`src/styles/tokens.css`](./src/styles/tokens.css) for every token and its default.
+
+### Your own glass
+
+`.sp-material` is the glass every component is made of. Add it to your own elements, with `data-material="thin"`, `"regular"` or `"thick"`:
+
+```html
+<aside class="sp-material" data-material="thin">…</aside>
+```
 
 ### With Tailwind CSS
 
@@ -117,20 +168,102 @@ Declare the layer order before importing Tailwind, so utilities override Spatial
 @import 'tailwindcss';
 ```
 
+## Accessibility
+
+- Glass turns into an opaque fill when the user prefers reduced transparency or more contrast, and when the browser cannot blur.
+- Safari does not expose its Reduce Transparency setting to CSS. Set `data-sp-transparency="reduce"` on any element to make the glass inside it opaque, for example from a user preference.
+- In forced colors mode (Windows high contrast), every surface and control keeps a visible border.
+- Motion is removed when the user prefers reduced motion.
+- Focus rings show for keyboard focus only, using `:focus-visible`.
+
 ## Components
 
 ### Surface
 
-A glass panel, the material every other component is made of.
+A glass panel.
 
 | Prop | Type | Default |
 | --- | --- | --- |
 | `as` | `string \| Component` | `'div'` |
 | `material` | `'thin' \| 'regular' \| 'thick'` | `'regular'` |
 
+### Button
+
+```vue
+<SpButton variant="prominent">
+Watch
+</SpButton>
+
+<SpButton square aria-label="Close">
+✕
+</SpButton>
+
+<SpButton as="a" href="/docs">
+Docs
+</SpButton>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `'glass' \| 'prominent' \| 'plain'` | `'glass'` |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+| `square` | `boolean` | `false` |
+| `disabled` | `boolean` | `false` |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` |
+| `as` | `string \| Component` | `'button'` |
+
+- `type` defaults to `'button'`, so a button inside a form does not submit it unless you ask for `type="submit"`.
+- A square button holds only an icon, so give it an accessible name with `aria-label`.
+- Only native buttons can be disabled. Other elements, such as links, get `aria-disabled="true"` and the disabled look but stay operable. Render a button instead of a disabled link.
+
+### Badge
+
+```vue
+<SpBadge>
+New
+</SpBadge>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `variant` | `'glass' \| 'prominent'` | `'glass'` |
+| `as` | `string \| Component` | `'span'` |
+
+### Input
+
+```vue
+<script setup lang="ts">
+const query = ref('')
+</script>
+
+<template>
+  <SpInput v-model="query" placeholder="Search…" aria-label="Search">
+    <template #leading>
+      <SearchIcon />
+    </template>
+  </SpInput>
+</template>
+```
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `v-model` | `string` | |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` |
+
+| Slot | Description |
+| --- | --- |
+| `leading` | Content before the text, such as an icon |
+| `trailing` | Content after the text, such as an icon or a button |
+
+- `class` and `style` apply to the visible box. Every other attribute (`type`, `placeholder`, `id`, `aria-*`, `disabled`, event listeners) applies to the native `<input>`, so `<label for>` works as usual.
+- Clicking the box or a decorative slot focuses the input. Interactive slot content, such as a clear button, works normally.
+- Set `aria-invalid="true"` to mark the field invalid.
+- Get the native element or focus it through a template ref, which exposes `input` and `focus()`.
+- `v-model` modifiers (`.trim`, `.number`, `.lazy`) are not supported yet.
+
 ## Browser support
 
-Browsers in [Baseline Widely available](https://web.dev/baseline). Glass effects use `backdrop-filter`.
+Browsers in [Baseline Widely available](https://web.dev/baseline). Glass effects use `backdrop-filter`. The stylesheet stays correct when your bundler lowers it for older targets, as Vite does by default.
 
 ## Development
 

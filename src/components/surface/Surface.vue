@@ -7,7 +7,7 @@ defineSlots<SurfaceSlots>()
 </script>
 
 <template>
-  <component :is="as" class="sp-surface" :data-material="material">
+  <component :is="as" class="sp-surface sp-material" :data-material="material">
     <slot />
   </component>
 </template>
