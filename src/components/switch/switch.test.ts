@@ -85,6 +85,26 @@ describe('switch', () => {
     expect(getComputedStyle(control.element()).opacity).toBe('0.4')
   })
 
+  it('keeps its states apart when transparency is reduced', async () => {
+    await render(() => h('div', { 'data-sp-transparency': 'reduce' }, [
+      h(Switch, { 'aria-label': 'Off' }),
+      h(Switch, { 'aria-label': 'On', 'modelValue': true }),
+    ]))
+    const style = (name: string): CSSStyleDeclaration => getComputedStyle(page.getByRole('switch', { name }).element())
+    const resolve = (token: string): string => {
+      const probe = document.createElement('div')
+      probe.style.backgroundColor = `var(${token})`
+      page.getByRole('switch', { name: 'On' }).element().after(probe)
+      const color = getComputedStyle(probe).backgroundColor
+      probe.remove()
+      return color
+    }
+
+    expect(style('Off').backdropFilter).toBe('none')
+    expect(style('Off').backgroundColor).toBe(resolve('--sp-material-solid'))
+    expect(style('On').backgroundColor).toBe(resolve('--sp-color-accent'))
+  })
+
   it('has no accessibility violations', async () => {
     const { container } = await render(() => [
       h(Switch, { 'aria-label': 'Off' }),

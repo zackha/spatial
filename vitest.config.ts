@@ -77,6 +77,36 @@ export default defineConfig({
           },
         },
       },
+      // Reference images come from CI (Linux) only; see test/visual.
+      ...(process.env.CI
+        ? [
+            {
+              extends: false as const,
+              plugins: [
+                vue(),
+              ],
+              test: {
+                name: 'visual',
+                include: ['test/visual/**/*.visual.test.ts'],
+                browser: {
+                  enabled: true,
+                  headless: true,
+                  provider: playwright({
+                    contextOptions: { deviceScaleFactor: 1 },
+                  }),
+                  instances: browsers(),
+                  viewport: { width: 800, height: 900 },
+                  expect: {
+                    toMatchScreenshot: {
+                      comparatorName: 'pixelmatch' as const,
+                      comparatorOptions: { threshold: 0.1, allowedMismatchedPixelRatio: 0.01 },
+                    },
+                  },
+                },
+              },
+            },
+          ]
+        : []),
       {
         extends: false,
         test: {

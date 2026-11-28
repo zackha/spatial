@@ -12,7 +12,9 @@
   margin: 0;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  /* Glass, like the other controls, so the off track reads over busy backdrops. */
   background-color: var(--sp-material-thin-tint);
+  backdrop-filter: blur(var(--sp-material-thin-blur)) saturate(var(--sp-material-saturation));
   border: 1px solid var(--sp-material-edge);
   border-radius: var(--sp-radius-control);
   box-shadow: var(--sp-material-highlight);

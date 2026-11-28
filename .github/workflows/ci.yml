@@ -48,6 +48,58 @@ jobs:
       # Runs in Chromium, Firefox and WebKit (CI is set).
       - run: pnpm test:browser
 
+  visual:
+    name: Visual regression
+    # Reference images are tied to this exact image (fonts, rendering).
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Until the first references exist (the Update screenshots workflow can
+      # only run once it is on the default branch), warn instead of failing.
+      # Afterwards every visual test needs a reference.
+      - name: Check for reference images
+        id: references
+        run: |
+          if find test/visual -name '*-linux.png' | grep -q .; then
+            echo "exist=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::No visual reference images yet. Run the Update screenshots workflow on this branch."
+            echo "exist=false" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.references.outputs.exist == 'true'
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - if: steps.references.outputs.exist == 'true'
+        run: pnpm test:visual
+      # Reference, actual and diff images, to see what changed.
+      - if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: visual-diffs
+          path: .vitest/attachments/
+
+  docs:
+    name: Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      # Type-checks the examples, which consume the module's typed components.
+      - run: pnpm --filter spatial-docs typecheck
+      # Prerendering fails on any page that errors or links nowhere.
+      - run: pnpm docs:generate
+
   nuxt:
     name: Nuxt ${{ matrix.compatibility }} (compatibility)
     runs-on: ubuntu-latest

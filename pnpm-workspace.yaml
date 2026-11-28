@@ -12,6 +12,7 @@ trustPolicyExclude:
 shellEmulator: true
 
 packages:
+  - docs
   - playground
   - test/fixtures/*
 
@@ -27,6 +28,8 @@ catalog:
   '@vitest/browser-playwright': ^5.1.2
   axe-core: ^4.14.1
   browserslist: ^4.29.6
+  bumpp: ^12.3.0
+  changelogithub: ^15.0.5
   eslint: ^10.15.0
   lightningcss: ^1.33.0
   nuxt: ^4.7.0
@@ -41,4 +44,5 @@ catalog:
   vitest: ^5.1.2
   vitest-browser-vue: ^3.1.0
   vue: ^3.5.46
+  vue-component-meta: ^3.3.14
   vue-tsc: ^3.3.14

@@ -1,0 +1,21 @@
+{
+  "name": "spatial-docs",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "nuxt": "catalog:",
+    "spatial-ui": "workspace:*",
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vue-component-meta": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

@@ -1,9 +1,10 @@
-import { readdir, readFile } from 'node:fs/promises'
+import { access, readdir, readFile } from 'node:fs/promises'
 import { describe, expect, it } from 'vitest'
 import * as library from '../../src/index.ts'
 import { components } from '../../src/registry.ts'
 
 const root = new URL('../../src/', import.meta.url)
+const docs = new URL('../../docs/app/', import.meta.url)
 
 function kebab(name: string): string {
   return name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
@@ -31,6 +32,16 @@ describe('component registry', () => {
     for (const name of components) {
       const dir = kebab(name)
       expect(css).toContain(`@import '../components/${dir}/${dir}.css' layer(spatial.components);`)
+    }
+  })
+
+  it('documents every component with a page and at least one example', async () => {
+    for (const name of components) {
+      const dir = kebab(name)
+      await expect(access(new URL(`pages/components/${dir}.vue`, docs)), `docs page for ${name}`).resolves.toBeUndefined()
+
+      const examples = await readdir(new URL(`examples/${dir}/`, docs))
+      expect(examples.filter(file => file.endsWith('.vue')).length, `examples for ${name}`).toBeGreaterThan(0)
     }
   })
 })

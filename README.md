@@ -367,14 +367,26 @@ Browsers in [Baseline Widely available](https://web.dev/baseline). Glass effects
 
 ```sh
 pnpm install
-pnpm dev          # build the package in watch mode
-pnpm play         # run the Vite playground
-pnpm test         # unit, browser and Nuxt tests
+pnpm dev            # build the package in watch mode
+pnpm play           # the Vite playground (plain Vue, resolver)
+pnpm docs:dev       # the documentation site (Nuxt module)
+pnpm test           # unit, browser and Nuxt tests
 pnpm lint
 pnpm typecheck
 ```
 
-Browser tests run in Chromium locally and in Chromium, Firefox and WebKit in CI. Install the browser once with `pnpm exec playwright install chromium`.
+- **Browser tests** run in Chromium locally and in Chromium, Firefox and WebKit in CI. Install the browser once with `pnpm exec playwright install chromium`. Tests that emulate user preferences (`*.media.test.ts`) run one file at a time, because emulation applies to the whole page.
+- **Visual regression tests** (`test/visual`) run in CI only, because rendering differs between operating systems. After an intended visual change, run the **Update screenshots** workflow on your branch from the Actions tab. It commits new reference images to the branch.
+- **The documentation site** reads props, slots and events from the source with `vue-component-meta`, so API tables follow the code. `pnpm docs:generate` builds it as a static site, and CI checks that it builds.
+
+### Releasing
+
+Releases are published from GitHub Actions with [npm trusted publishing](https://docs.npmjs.com/trusted-publishers), so no npm token exists.
+
+1. On `master`, run `pnpm release` and pick the version. It bumps `package.json`, commits, tags `vX.Y.Z` and pushes.
+2. The tag starts the **Release** workflow. It checks that the tag matches `package.json` and is on `master`, runs the checks, publishes to npm with provenance, and creates a GitHub release from the conventional commits.
+
+Pre-releases (`2.0.0-alpha.1`) are published under the `next` dist-tag, so they never become `latest`.
 
 ## License
 

@@ -55,7 +55,11 @@
     "test:unit": "vitest run --project unit",
     "test:browser": "vitest run --project browser --project browser-media",
     "test:nuxt": "vitest run --project nuxt",
-    "prepack": "pnpm build"
+    "prepack": "pnpm build",
+    "test:visual": "vitest run --project visual",
+    "docs:dev": "pnpm --filter spatial-docs dev",
+    "docs:generate": "pnpm --filter spatial-docs generate",
+    "release": "bumpp"
   },
   "peerDependencies": {
     "nuxt": "^4.0.0",
@@ -78,6 +82,8 @@
     "@vitest/browser-playwright": "catalog:",
     "axe-core": "catalog:",
     "browserslist": "catalog:",
+    "bumpp": "catalog:",
+    "changelogithub": "catalog:",
     "eslint": "catalog:",
     "lightningcss": "catalog:",
     "nuxt": "catalog:",

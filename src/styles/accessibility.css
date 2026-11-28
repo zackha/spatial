@@ -5,7 +5,8 @@
 
 /* Without backdrop blur, a translucent tint is unreadable over busy content. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .sp-material {
+  .sp-material,
+  .sp-switch:not([data-checked]) {
     background-color: var(--sp-material-solid);
   }
 }
@@ -15,21 +16,23 @@
  * also opt in with `data-sp-transparency="reduce"` on any ancestor.
  */
 @media (prefers-reduced-transparency: reduce) {
-  .sp-material {
+  .sp-material,
+  .sp-switch:not([data-checked]) {
     background-color: var(--sp-material-solid);
     backdrop-filter: none;
   }
 }
 
-[data-sp-transparency='reduce'] .sp-material,
-.sp-material[data-sp-transparency='reduce'] {
+[data-sp-transparency='reduce'] :is(.sp-material, .sp-switch:not([data-checked])),
+:is(.sp-material, .sp-switch:not([data-checked]))[data-sp-transparency='reduce'] {
   background-color: var(--sp-material-solid);
   backdrop-filter: none;
 }
 
 /* More contrast: solid fills and visible edges. */
 @media (prefers-contrast: more) {
-  .sp-material {
+  .sp-material,
+  .sp-switch:not([data-checked]) {
     background-color: var(--sp-material-solid);
     backdrop-filter: none;
     border-color: color-mix(in oklab, currentcolor 60%, transparent);
@@ -42,7 +45,8 @@
  * edge into a visible boundary.
  */
 @media (forced-colors: active) {
-  .sp-material {
+  .sp-material,
+  .sp-switch {
     backdrop-filter: none;
   }
 
